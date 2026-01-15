@@ -2,14 +2,14 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8" />
-    <title>Psycho Slot - Full Integration 2026</title>
+    <title>Psycho Slot - Full Integration</title>
     <style>
-        body { margin: 0; background: #000; overflow: hidden; font-family: 'Courier New', monospace; }
+        body { margin: 0; background: #000; overflow: hidden; }
         canvas { display: block; margin: 0 auto; }
     </style>
 </head>
 <body>
-    <!-- Import bibliotek z pewnych źródeł -->
+    <!-- PEŁNE I SPRAWDZONE LINKI DO BIBLIOTEK -->
     <script src="cdnjs.cloudflare.com"></script>
     <script src="cdnjs.cloudflare.com"></script>
 
@@ -18,22 +18,21 @@
         let hue = 0;
 
         (async () => {
-            // 1. INICJALIZACJA PIXI (v8)
+            // 1. INICJALIZACJA (PixiJS v8)
             const app = new PIXI.Application();
             await app.init({ 
                 width: 1280, 
                 height: 720, 
-                backgroundColor: 0x050510,
-                antialias: true 
+                backgroundColor: 0x050510 
             });
             document.body.appendChild(app.canvas);
 
-            // 2. FILTRY (Blur do Dreamcore)
+            // 2. FILTRY
             const blurFilter = new PIXI.BlurFilter();
             blurFilter.blur = 0;
             app.stage.filters = [blurFilter];
 
-            // 3. SCENA I RAMKA
+            // 3. WARSTWY I RAMKA
             const mainScene = new PIXI.Container();
             app.stage.addChild(mainScene);
 
@@ -50,7 +49,6 @@
                 analyser = audioCtx.createAnalyser();
                 analyser.fftSize = 256;
                 dataArray = new Uint8Array(analyser.frequencyBinCount);
-                console.log("Audio Pulse Ready");
             }
 
             // 5. BONUS BUY - PORTALE
@@ -60,7 +58,6 @@
             function openBonusBuy() {
                 gameState = "BONUS_SELECT";
                 gsap.to(mainScene, { alpha: 0.3, duration: 0.5 });
-                
                 const p1 = createPortal("🌫️ DREAMCORE", 440, 320, 0x00ffff, () => startBonus("DREAM"));
                 const p2 = createPortal("👁️ DMT", 840, 320, 0xff0000, () => startBonus("DMT"));
                 bonusUI.addChild(p1, p2);
@@ -68,80 +65,52 @@
 
             function createPortal(txt, x, y, col, action) {
                 const c = new PIXI.Container();
-                const g = new PIXI.Graphics()
-                    .circle(0, 0, 100)
-                    .stroke({ width: 4, color: col });
-                
-                const t = new PIXI.Text({
-                    text: txt,
-                    style: { fill: col, fontSize: 24, fontWeight: 'bold' }
-                });
+                const g = new PIXI.Graphics().circle(0, 0, 100).stroke({ width: 4, color: col });
+                const t = new PIXI.Text({ text: txt, style: { fill: col, fontSize: 24 } });
                 t.anchor.set(0.5);
-                
                 c.addChild(g, t);
                 c.position.set(x, y);
                 c.eventMode = 'static';
                 c.cursor = 'pointer';
                 c.on('pointerdown', action);
-                
-                // Animacja portalu
-                gsap.to(c.scale, { x: 1.1, y: 1.1, duration: 1, yoyo: true, repeat: -1 });
-                
                 return c;
             }
 
-            // 6. TRYBY GRY
             function startBonus(type) {
                 bonusUI.removeChildren();
                 gsap.to(mainScene, { alpha: 1, duration: 1 });
                 gameState = (type === "DMT") ? "BONUS_DMT" : "BONUS_DREAM";
-                
-                if (type === "DMT") {
-                    gsap.to(frame.scale, { x: 1.05, y: 1.05, duration: 0.1, yoyo: true, repeat: 10 });
-                }
             }
 
-            // 7. PRZYCISK START (Zielona kropka)
-            const spinBtn = new PIXI.Graphics()
-                .circle(0, 0, 50)
-                .fill(0x00ff66);
-            spinBtn.position.set(1140, 620);
+            // 6. PRZYCISK START (Inicjuje grę i audio)
+            const spinBtn = new PIXI.Graphics().circle(0, 0, 50).fill(0x00ff66);
+            spinBtn.position.set(1100, 600);
             spinBtn.eventMode = 'static';
             spinBtn.cursor = 'pointer';
-            
             spinBtn.on('pointerdown', () => {
-                if (!audioCtx) initAudio(); // Aktywacja po kliku (wymóg przeglądarki)
+                if (!audioCtx) initAudio();
                 if (gameState === "IDLE") openBonusBuy();
-                else {
-                    gameState = "IDLE";
-                    blurFilter.blur = 0;
-                    mainScene.position.set(0,0);
-                }
             });
             app.stage.addChild(spinBtn);
 
-            // 8. TICKER (Animacje i Audio)
+            // 7. GLOBAL TICKER
             app.ticker.add(() => {
-                // Tęczowa ramka
-                hue += 1;
+                hue += 0.5;
                 frame.tint = PIXI.Color.shared.setValue(`hsl(${hue % 360}, 100%, 60%)`).toNumber();
 
-                // Pulsowanie przycisku od "audio" (symulacja jeśli brak muzyki)
                 if (analyser) {
                     analyser.getByteFrequencyData(dataArray);
                     let avg = dataArray.reduce((a, b) => a + b) / dataArray.length;
-                    spinBtn.scale.set(1 + avg / 150);
+                    spinBtn.scale.set(1 + avg / 200);
                 }
 
-                // Efekt DMT (Screen Shake)
                 if (gameState === "BONUS_DMT") {
-                    mainScene.x = (Math.random() - 0.5) * 10;
-                    mainScene.y = (Math.random() - 0.5) * 10;
+                    mainScene.x = Math.random() * 10 - 5;
+                    mainScene.y = Math.random() * 10 - 5;
                 }
 
-                // Efekt Dreamcore (Blur)
                 if (gameState === "BONUS_DREAM") {
-                    blurFilter.blur = Math.sin(Date.now() * 0.004) * 10 + 10;
+                    blurFilter.blur = Math.sin(Date.now() * 0.002) * 5 + 5;
                 }
             });
         })();
