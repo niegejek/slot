@@ -1,1 +1,1 @@
-@$(sender) Podaj nazwe slota(nie ma ich duzo bo nie mam klipow a nie chce mi sie ogladac tyle vodow)
+😲🍀 Lucky Penny  wygrana:52kPLN stawka:20PLN klip: https://kick.com/zony/clips/clip_01KET0HWVQRSXZJMAX149HXYVF 😲🍀 
