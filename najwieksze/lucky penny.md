@@ -1,0 +1,1 @@
+wygrana:52kPLN stawka:20PLN klip: https://kick.com/zony/clips/clip_01KET0HWVQRSXZJMAX149HXYVF 😲
