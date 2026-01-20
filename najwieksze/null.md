@@ -1,0 +1,1 @@
+@$(sender) Podaj nazwe slota(nie ma ich duzo bo nie mam klipow a nie chce mi sie ogladac tyle vodow)
