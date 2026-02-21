@@ -1,1 +1,1 @@
-😲🍀 Lucky Penny  wygrana:52kPLN stawka:20PLN klip: https://kick.com/zony/clips/clip_01KET0HWVQRSXZJMAX149HXYVF 😲🍀 
+😲🐶 Lucky Penny  wygrana:102kPLN stawka:200PLN klip: wygrana:102kPLN stawka:200PLN klip: https://kick.com/zony/clips/clip_01KHCK67J8VXZ435TF4405MP19 🐶😲  
